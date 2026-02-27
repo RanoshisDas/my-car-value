@@ -12,8 +12,8 @@ import {ConfigModule,ConfigService} from "@nestjs/config";
   imports: [
       ConfigModule.forRoot({
           isGlobal: true,
-          // envFilePath: `.env.${process.env.NODE_ENV}`
-          envFilePath: `.env.development`
+          envFilePath: `.env.${process.env.NODE_ENV}`
+          // envFilePath: `.env.development`
       }),
       UsersModule,
       ReportesModule,

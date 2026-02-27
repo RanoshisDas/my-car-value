@@ -9,7 +9,8 @@ import {
     Delete,
     NotFoundException,
     Session,
-    UseGuards
+    UseGuards,
+    UseInterceptors
 } from '@nestjs/common';
 import {CreateUserDto} from "./dtos/create-user.dto";
 import {UpdateUserDto} from "./dtos/update-user.dto";
@@ -20,6 +21,7 @@ import {AuthService} from "./auth.service";
 import {CurrentUser} from "./decorators/current-user.decorator";
 import {User} from "./user.entity";
 import {AuthGuard} from "../guards/auth.guard";
+import {CustomInterceptor} from "./interceptors/custom.interceptor";
 
 @Controller('auth')
 @Serialize(UserDto)
@@ -34,6 +36,7 @@ export class UsersController {
     }
 
     @Post('/signin')
+    @UseInterceptors(CustomInterceptor)
     async signIn(@Body() body:CreateUserDto, @Session() session:any){
         const user=await this.authService.signIn(body.email,body.password);
         session.userId=user.id;
