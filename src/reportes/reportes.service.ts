@@ -43,4 +43,13 @@ export class ReportesService {
             .limit(3)
             .getRawOne();
     }
+
+    getCarData(year:number){
+        return this.repo.createQueryBuilder()
+            .select('*')
+            .where('year < :year',{year})
+            .andWhere('approved IS TRUE')
+            .limit(5)
+            .getRawMany();
+    }
 }

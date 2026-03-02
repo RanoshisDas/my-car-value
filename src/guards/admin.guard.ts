@@ -1,5 +1,4 @@
-import {CanActivate, ExecutionContext} from "@nestjs/common";
-import {Observable} from "rxjs";
+import {CanActivate, ExecutionContext, UnauthorizedException} from "@nestjs/common";
 
 
 export class AdminGuard implements CanActivate{
@@ -7,6 +6,9 @@ export class AdminGuard implements CanActivate{
         const request = context.switchToHttp().getRequest();
         if(!request.currentUser){
             return false;
+        }
+        if(request.currentUser.admin === false){
+            throw new UnauthorizedException('User is not admin');
         }
         return request.currentUser.admin;
     }

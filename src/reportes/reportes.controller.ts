@@ -32,5 +32,10 @@ export class ReportesController {
         return this.reportesService.createEstimate(query);
     }
 
+    @Get('yr/:year')
+    getCarData(@Param('year') year:string){
+        return this.reportesService.getCarData(parseInt(year));
+    }
+
 
 }
