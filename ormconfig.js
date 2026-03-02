@@ -9,8 +9,8 @@ switch (process.env.NODE_ENV) {
         Object.assign(dbConfig, {
             type: 'sqlite',
             database: 'db.sqlite',
-            entities: ['src/**/*.entity.ts'],
-            migrations: ['migration/*.ts'],  // ✅ FIXED
+            entities: ['**/*.entity.js'],
+            migrations: ['migration/*.js'],
         });
         break;
 
@@ -29,7 +29,7 @@ switch (process.env.NODE_ENV) {
             url: process.env.DATABASE_URL,
             migrationsRun: true,
             entities: ['dist/**/*.entity.js'],
-            migrations: ['dist/migration/*.js'], // ✅ correct for prod
+            migrations: ['dist/migration/*.js'],
             ssl: {
                 rejectUnauthorized: false,
             },
