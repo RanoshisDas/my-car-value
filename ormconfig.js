@@ -1,8 +1,7 @@
-const {DataSource} = require('typeorm');
+const { DataSource } = require('typeorm');
 
 const dbConfig = {
     synchronize: false,
-    migrations: ['dist/migration/*.js'],
 };
 
 switch (process.env.NODE_ENV) {
@@ -10,7 +9,8 @@ switch (process.env.NODE_ENV) {
         Object.assign(dbConfig, {
             type: 'sqlite',
             database: 'db.sqlite',
-            entities: ['dist/**/*.entity.js'],
+            entities: ['src/**/*.entity.ts'],
+            migrations: ['migration/*.ts'],  // ✅ FIXED
         });
         break;
 
@@ -19,6 +19,7 @@ switch (process.env.NODE_ENV) {
             type: 'sqlite',
             database: 'test.sqlite',
             entities: ['src/**/*.entity.ts'],
+            migrations: ['migration/*.ts'],
         });
         break;
 
@@ -27,7 +28,8 @@ switch (process.env.NODE_ENV) {
             type: 'postgres',
             url: process.env.DATABASE_URL,
             migrationsRun: true,
-            entities: ['**/*.entity.js'],
+            entities: ['dist/**/*.entity.js'],
+            migrations: ['dist/migration/*.js'], // ✅ correct for prod
             ssl: {
                 rejectUnauthorized: false,
             },
@@ -41,6 +43,6 @@ switch (process.env.NODE_ENV) {
 const AppDataSource = new DataSource(dbConfig);
 
 module.exports = {
-    dbConfig,        // 🔹 for Nest
-    AppDataSource,   // 🔹 for CLI
+    dbConfig,
+    AppDataSource,
 };
